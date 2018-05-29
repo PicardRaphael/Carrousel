@@ -8,6 +8,14 @@ Le but est de construire ce carousel d'image en JS :
 
 ![resultat](resultat.png)
 
+## Plan
+
+1. À partir des instructions ci-dessous, dresser (écrire) les principales fonctionnalités, en français - **via du texte**
+
+2. Pour chaque étape du programme, construire le déroulé en français - **via du texte**
+
+3. Commencer à coder en respectant le fil de pensée établi en `2.`
+
 ## Instructions
 
 ### Slider
