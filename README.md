@@ -22,9 +22,26 @@ Le but est de construire ce carousel d'image en JS :
 
 1. Rajouter les 5 images à notre page, et **afficher uniquement la première image**.
 
+  -ajouter visu page html!
+  -trouve un moyen pour en affiche qu'une!(to
+
 2. Toutes les 5 secondes : faire **disparaître** l'image visible, et **apparaître** la suivante.
 
+  -gestion du temps > timer > setInterval (toues les X ms)
+  -identifier l'image visible > usage de class CSS active
+  -display none sur l'image active
+  -identifier l'image qui suit directement l'image visible
+  -réussir à trouver le prochaine élément dans le DOM
+  -display block sur l'image suivant
+
+  Toutes les 5 s
+    -identifier l'image courante et l'image suivant
+    -afficher l'image suivant et masquer l'image courant
+
 3. Une fois arrivé à la dernière image, **on repart à zéro** (la dernière image disparaît, la première apparaît).
+
+  -si image suivant vide
+  -alors je repare de la premier
 
 4. Faire un effet de **fade in / fade out**, plutôt que apparaître / disparaître.
 
