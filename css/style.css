@@ -49,3 +49,24 @@
 #slider-left::before{
   transform: rotate(-45deg);
 }
+
+#slider-thumbs{
+  position: absolute;
+  top: 20px;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+}
+
+#slider-thumbs img{
+  width: 120px;
+  height: 77px;
+  display: inline-block;
+  margin: 0 .5em;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+#slider-thumbs img:hover{
+  border-color: #999;
+}

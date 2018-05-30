@@ -1,72 +1,137 @@
 var app = {
-  init: function(){
-    console.log('init');
+  init: function() {
+    console.log('app init');
 
-    //Création des flèches de nav
-    app.creatArrows();
+    // Creation des miniatures
+    app.createThumbnails();
 
-    //Lancer la lecture du slider, la logique du Slider
+    // Creation des fleches de navigation
+    app.createArrows();
+
+    // Lancer la lecture du slider, la logique du slider
     app.playSlider();
   },
-  //Lancer la lecture du slider
-  playSlider: function(){
+  // Lancer la lecture du slider
+  playSlider: function() {
     console.log('play');
-    //Toues les 5s, je dois identifier l'image suivante
-    app.timer = setInterval(app.getNextImgage , 5000);
+    // Toutes les 5 secondes, je dois identifier l'image suivante
+    app.timer = setInterval(app.getNextImage, 5000);
   },
-  //identifier l'image suivant
-  getNextImgage: function(){
-    console.log('getNextImgage');
-    //identifier l'image visible > usage de la class CSS active
+  // Identification de l'image suivante
+  getNextImage: function() {
+    console.log('getNextImage');
+
+    // Option verbeuse
+    // identifier l'image visible > usage de la class CSS active
     // var $currentImage = $('#slider-images .active');
-    //réussir à trouver le prochain élément dans le DOM
+    // réussir à trouver le prochain élément dans le DOM
     // var $nextImage = $currentImage.next();
+
     var $nextImage = $('#slider-images .active').next();
 
-    if($nextImage.length === 0){
-      //je repars de la 1
+    // - SI l'image suivante est vide
+    // - ALORS je repars de la première
+
+    if ($nextImage.length === 0) {
       $nextImage = $('#slider-images img').first();
     }
+
     app.showImage($nextImage);
+
   },
-  //identifier l'image prec
-  getPrevImgage: function(){
+  // Identification de l'image précédente
+  getPrevImage: function() {
+    console.log('getPrevImage');
+
     var $prevImage = $('#slider-images .active').prev();
-    if($prevImage.length === 0){
-      //je repars de la 1
-      $prevImage = $('#slider-images img').first();
+
+    // Si l'image précédente ne contient rien
+    if ($prevImage.length === 0) {
+      $prevImage = $('#slider-images img').last();
     }
+
     app.showImage($prevImage);
   },
-  //Afficher l'image voulue
-  showImage: function($img){
+  // Afficher l'image voulue
+  showImage: function($img) {
     console.log('show');
-    //masquer l'image courante
+
+    // masquer l'image courante
     $('#slider-images .active').fadeOut().removeClass('active');
-    //J'affiche l'image demandée
+
+    // j'affiche l'image demandée
     $img.fadeIn().addClass('active');
   },
-  //création des Flèches
-  creatArrows: function(){
+  // Création des flèches
+  createArrows: function() {
     console.log('arrows');
-    //crerr les flèches gauche et droite
+    // creer les fleches gauche et droite
+    // <div id="slider-left" class="slider-arrow"></div>
     var $arrowLeft = $('<div>', {
       id: 'slider-left',
-      class: 'slider-arrow'
+      class: 'slider-arrow',
     });
 
     var $arrowRight = $('<div>', {
       id: 'slider-right',
-      class: 'slider-arrow'
+      class: 'slider-arrow',
     });
 
-    $arrowRight.on('click',app.getNextImgage);
-    $arrowLeft.on('click', app.getPrevImgage);
-    //ajoute DOM
-    //un élément DOM existant=> append  => un élément que je créer
-    //un élément que je créé => appendTo  => un élément du DOM existant
-    $('#slider').append( $arrowRight, $arrowLeft );
-    //$arrowLeft.appendTo('#slide');
+    $arrowLeft.on('click', app.getPrevImage);
+    $arrowRight.on('click', app.getNextImage);
+
+    // Ajouter au DOM les flèches
+    // un élément DOM existant -> append -> un élément que je crée
+    // un élément que je crée -> appendTo -> un élément du DOM existant
+    $('#slider').append($arrowLeft, $arrowRight);
+
   },
+  // Création des miniatures
+  createThumbnails: function() {
+    console.log('thumbnails');
+    // Container pour les miniatures
+    var $thumbs = $('<div>', {
+      id: 'slider-thumbs',
+    });
+
+    // Je dois me calquer / me baser sur le DOM (les images) pour générer les miniatures
+    $('#slider-images img').each(function(index, element) {
+
+      // console.log(index, element);
+      var $currentImage = $(element);
+
+      // console.log($currentImage);
+      var srcCurrentImg = $currentImage.attr('src');
+
+      // Création des miniatures avec l'aide de src
+      $('<img>', {
+        src: srcCurrentImg
+      }).appendTo($thumbs);
+
+      // Alternative avec append
+      // var $thumb = $('<img>', {
+      //   src: srcCurrentImg,
+      // });
+      //
+      // $thumbs.append($thumb);
+    });
+
+    // Ajout au DOM
+    $('#slider').append($thumbs);
+
+    $('#slider-thumbs img').on('click', app.changeImage);
+
+  },
+  //handler, permet change img graĉe miniatures
+  changeImage: function(){
+    //Cible la victime de l'event. celui qui subit et prend son index
+    var currentIndex = $(this).index();
+    //A partir de l'index, je cible l'index équivalent de mes images G
+    var $image = $('#slider-images img').eq(currentIndex);
+    //affiche l'image
+    app.showImage($image);
+  }
+
 };
+
 $(app.init);
